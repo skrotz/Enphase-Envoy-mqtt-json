@@ -354,8 +354,7 @@ def scrape_stream_meters():
     ENVOY_TOKEN=token_gen(ENVOY_TOKEN)
     while True:
         try:
-#           url = 'https://%s/ivp/meters/readings' % ENVOY_HOST
-            url = 'https://%s/ivp/meters/reports/consumption' % ENVOY_HOST
+            url = 'https://%s/ivp/meters/readings' % ENVOY_HOST
             if DEBUG: print(dt_string, 'Url:', url)
             headers = {"Authorization": "Bearer " + ENVOY_TOKEN}
             if DEBUG: print(dt_string, 'headers:', headers)
@@ -380,7 +379,7 @@ def scrape_stream_meters():
                         json_string_freeds = json.dumps(round(stream.json()[1]["activePower"]))
                         if DEBUG: print(dt_string, 'Json freeds:', stream.json()[1]["activePower"])
                         client.publish(topic= MQTT_TOPIC_FREEDS , payload= json_string_freeds, qos=0 )
-                    time.sleep(0.6)
+                    time.sleep(4.6)
                 else:
                     print(dt_string, 'Invalid Json Response:', stream.content)
         except requests.exceptions.RequestException as e:
