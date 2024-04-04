@@ -18,7 +18,7 @@ A Python script that takes a real time json stream from an Enphase Envoy and pub
 
 1) Add this Repository to your Home Assistant by clicking this button  
 
-[![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https://github.com/vk2him/Enphase-Envoy-mqtt-json)
+[![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https://github.com/skrotz/Enphase-Envoy-mqtt-json)
 
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
@@ -32,7 +32,7 @@ A Python script that takes a real time json stream from an Enphase Envoy and pub
 [armv7-shield]: https://img.shields.io/badge/armv7-yes-green.svg
 [i386-shield]: https://img.shields.io/badge/i386-yes-green.svg
 
-2) After adding the Repository, you'll see a new section titled "vk2him's Enphase add-on repository"
+2) After adding the Repository, you'll see a new section titled "skrotz's Enphase add-on repository"
 3) Click to install "Stream mqtt from Enphase Envoy"
 4) After it's installed, click on "Configuration" and enter required settings __Note:__ "MQTT_HOST" will be the IP address for your mqtt broker, so this will probably be the IP address of your Home Assistant
 5) Optionally slide switch to enable Watchdog and/or Auto update
@@ -211,7 +211,7 @@ sensor:
 # Installation Method 2 - as a stand-alone install on a Linux host
 
 - Copy to you Linux host in the directory of your choosing 
-`git clone https://github.com/vk2him/Enphase-Envoy-mqtt-json`
+`git clone https://github.com/skrotz/Enphase-Envoy-mqtt-json`
 - Configure settings in `/data/options.json`
 
 __Note:__
@@ -254,7 +254,7 @@ Create a file called envoy.service with your favourite file editor and add the f
 
 [Unit]
 Description=Envoy stream to MQTT
-Documentation=https://github.com/vk2him/Enphase-Envoy-mqtt-json
+Documentation=https://github.com/skrotz/Enphase-Envoy-mqtt-json
 After=network.target mosquitto.service
 StartLimitIntervalSec=0
 
