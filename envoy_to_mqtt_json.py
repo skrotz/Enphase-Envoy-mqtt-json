@@ -60,6 +60,7 @@ ENVOY_USER_PASS= option_dict["ENVOY_USER_PASS"]
 USE_FREEDS= option_dict["USE_FREEDS"]
 DEBUG= option_dict["DEBUG"]
 MQTT_TOPIC_FREEDS = "Inverter/GridWatts"
+MQTT_TOPIC_PRODS = "Inverter/Production"
 ####  End Settings - no changes after this line
 
 #Password generator
@@ -376,6 +377,9 @@ def scrape_stream_meters():
                     json_string = json.dumps(stream.json())
                     client.publish(topic= MQTT_TOPIC , payload= json_string, qos=0 )
                     if USE_FREEDS: 
+                        json_string_freeds = json.dumps(round(stream.json()[0]["activePower"]))
+                        if DEBUG: print(dt_string, 'Json prods:', stream.json()[0]["activePower"])
+                        client.publish(topic= MQTT_TOPIC_PRODS , payload= json_string_freeds, qos=0 )
                         json_string_freeds = json.dumps(round(stream.json()[1]["activePower"]))
                         if DEBUG: print(dt_string, 'Json freeds:', stream.json()[1]["activePower"])
                         client.publish(topic= MQTT_TOPIC_FREEDS , payload= json_string_freeds, qos=0 )
