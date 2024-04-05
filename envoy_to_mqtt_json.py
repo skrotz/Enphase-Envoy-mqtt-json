@@ -323,8 +323,10 @@ def scrape_stream_livedata():
                 ENVOY_TOKEN=token_gen(None)
                 headers = {"Authorization": "Bearer " + ENVOY_TOKEN}
                 stream = requests.get(url, timeout=5, verify=False, headers=headers)
+                time.sleep(1.0)
             elif stream.status_code != 200:
                 print(dt_string,'Failed connect to Envoy got ', stream)
+                time.sleep(1.0)
             elif is_json_valid(stream.content): 
                 if stream.json()['connection']['sc_stream'] == 'disabled':
                     url_activate='https://%s/ivp/livedata/stream' % ENVOY_HOST
@@ -334,10 +336,13 @@ def scrape_stream_livedata():
                         if response_activate.json()['sc_stream']=='enabled':
                             stream = requests.get(url, stream=True, timeout=5, verify=False, headers=headers)
                             print(dt_string, 'Success, stream is active now')
+                            time.sleep(1.0)
                         else:
                             print(dt_string, 'Failed to activate stream ', response_activate.content)
+                            time.sleep(1.0)
                     else:
                         print(dt_string, 'Invalid Json Response:', response_activate.content)
+                        time.sleep(1.0)
                 else:
                     json_string = json.dumps(stream.json())
                     #print(dt_string, 'Json Response:', json_string)
