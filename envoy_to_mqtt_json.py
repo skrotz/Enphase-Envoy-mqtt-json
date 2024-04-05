@@ -354,9 +354,11 @@ def scrape_stream_livedata():
                     time.sleep(4.6)
             elif not is_json_valid(stream.content):
                 print(dt_string, 'Invalid Json Response:', stream.content)
+                time.sleep(3.0)
 
         except requests.exceptions.RequestException as e:
             print(dt_string, ' Exception fetching stream data: %s' % e)
+            time.sleep(3.0)
 
 def scrape_stream_meters():
     global ENVOY_TOKEN
