@@ -358,7 +358,7 @@ def scrape_stream_livedata():
                         client.publish(topic= MQTT_TOPIC_LOADS , payload= json_string_freeds, qos=0 )
                     time.sleep(4.6)
             elif not is_json_valid(stream.content):
-                print(dt_string, 'Invalid Json Response:', stream.content)
+                print(dt_string, 'Invalid Json Response:', stream.text) # was stream.content
                 time.sleep(3.0)
 
         except requests.exceptions.RequestException as e:
