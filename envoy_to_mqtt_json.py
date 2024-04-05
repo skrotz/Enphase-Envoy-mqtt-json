@@ -59,10 +59,11 @@ ENVOY_USER= option_dict["ENVOY_USER"]
 ENVOY_USER_PASS= option_dict["ENVOY_USER_PASS"]
 USE_FREEDS= option_dict["USE_FREEDS"]
 DEBUG= option_dict["DEBUG"]
-MQTT_TOPIC_FREEDS = "Inverter/GridWatts"
-MQTT_TOPIC_PRODS = "Inverter/Production"
-MQTT_TOPIC_BATTS = "Inverter/Storage"
-MQTT_TOPIC_LOADS = "Inverter/Load"
+MQTT_TOPIC_FREEDS = "Enphase/GridWatts"
+MQTT_TOPIC_PRODS = "Enphase/Production"
+MQTT_TOPIC_BATTS = "Enphase/Storage"
+MQTT_TOPIC_LOADS = "Enphase/Load"
+MQTT_TOPIC_SOC = "Enphase/Soc"
 ####  End Settings - no changes after this line
 
 #Password generator
@@ -346,7 +347,6 @@ def scrape_stream_livedata():
                 else:
                     json_string = json.dumps(stream.json())
                     #print(dt_string, 'Json Response:', json_string)
-                    client.publish(topic= MQTT_TOPIC , payload= json_string, qos=0 )
                     if USE_FREEDS: 
                         json_string_freeds = json.dumps(round(stream.json()["meters"]["grid"]["agg_p_mw"]*0.001))
                         client.publish(topic= MQTT_TOPIC_FREEDS , payload= json_string_freeds, qos=0 )
@@ -356,6 +356,10 @@ def scrape_stream_livedata():
                         client.publish(topic= MQTT_TOPIC_BATTS , payload= json_string_freeds, qos=0 )
                         json_string_freeds = json.dumps(round(stream.json()["meters"]["load"]["agg_p_mw"]*0.001))
                         client.publish(topic= MQTT_TOPIC_LOADS , payload= json_string_freeds, qos=0 )
+                        json_string_freeds = json.dumps(round(stream.json()["meters"]["soc"]))
+                        client.publish(topic= MQTT_TOPIC_SOC , payload= json_string_freeds, qos=0 )
+                    else:
+                        client.publish(topic= MQTT_TOPIC , payload= json_string, qos=0 )
                     time.sleep(4.6)
             elif not is_json_valid(stream.content):
                 print(dt_string, 'Invalid Json Response:', stream.text) # was stream.content
