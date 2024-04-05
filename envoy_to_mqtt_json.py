@@ -341,7 +341,7 @@ def scrape_stream_livedata():
                 else:
                     json_string = json.dumps(stream.json())
                     #print(dt_string, 'Json Response:', json_string)
-                    client.publish(topic= MQTT_TOPIC , payload= json_string, qos=0 )
+                    #client.publish(topic= MQTT_TOPIC , payload= json_string, qos=0 )
                     if USE_FREEDS: 
                         json_string_freeds = json.dumps(round(stream.json()["meters"]["grid"]["agg_p_mw"]*0.001))
                         client.publish(topic= MQTT_TOPIC_FREEDS , payload= json_string_freeds, qos=0 )
@@ -351,7 +351,7 @@ def scrape_stream_livedata():
                         client.publish(topic= MQTT_TOPIC_BATTS , payload= json_string_freeds, qos=0 )
                         json_string_freeds = json.dumps(round(stream.json()["meters"]["load"]["agg_p_mw"]*0.001))
                         client.publish(topic= MQTT_TOPIC_LOADS , payload= json_string_freeds, qos=0 )
-                    time.sleep(0.6)
+                    time.sleep(4.6)
             elif not is_json_valid(stream.content):
                 print(dt_string, 'Invalid Json Response:', stream.content)
 
