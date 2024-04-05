@@ -61,6 +61,8 @@ USE_FREEDS= option_dict["USE_FREEDS"]
 DEBUG= option_dict["DEBUG"]
 MQTT_TOPIC_FREEDS = "Inverter/GridWatts"
 MQTT_TOPIC_PRODS = "Inverter/Production"
+MQTT_TOPIC_BATTS = "Inverter/Storage"
+MQTT_TOPIC_LOADS = "Inverter/Load"
 ####  End Settings - no changes after this line
 
 #Password generator
@@ -343,6 +345,12 @@ def scrape_stream_livedata():
                     if USE_FREEDS: 
                         json_string_freeds = json.dumps(round(stream.json()["meters"]["grid"]["agg_p_mw"]*0.001))
                         client.publish(topic= MQTT_TOPIC_FREEDS , payload= json_string_freeds, qos=0 )
+                        json_string_freeds = json.dumps(round(stream.json()["meters"]["pv"]["agg_p_mw"]*0.001))
+                        client.publish(topic= MQTT_TOPIC_PRODS , payload= json_string_freeds, qos=0 )
+                        json_string_freeds = json.dumps(round(stream.json()["meters"]["storage"]["agg_p_mw"]*0.001))
+                        client.publish(topic= MQTT_TOPIC_BATTS , payload= json_string_freeds, qos=0 )
+                        json_string_freeds = json.dumps(round(stream.json()["meters"]["load"]["agg_p_mw"]*0.001))
+                        client.publish(topic= MQTT_TOPIC_LOADS , payload= json_string_freeds, qos=0 )
                     time.sleep(0.6)
             elif not is_json_valid(stream.content):
                 print(dt_string, 'Invalid Json Response:', stream.content)
@@ -355,8 +363,7 @@ def scrape_stream_meters():
     ENVOY_TOKEN=token_gen(ENVOY_TOKEN)
     while True:
         try:
-#           url = 'https://%s/ivp/meters/readings' % ENVOY_HOST
-            url = 'https://%s/ivp/livedata/status' % ENVOY_HOST
+            url = 'https://%s/ivp/meters/readings' % ENVOY_HOST
             if DEBUG: print(dt_string, 'Url:', url)
             headers = {"Authorization": "Bearer " + ENVOY_TOKEN}
             if DEBUG: print(dt_string, 'headers:', headers)
@@ -424,7 +431,7 @@ def main():
     #stream_thread = threading.Thread(target=scrape_stream_meters)
     
     if envoy_version == 7:
-        stream_thread = threading.Thread(target=scrape_stream_meters)
+        stream_thread = threading.Thread(target=scrape_stream_livedata)
         stream_thread.start()
     elif envoy_version == 5:
         stream_thread = threading.Thread(target=scrape_stream)
