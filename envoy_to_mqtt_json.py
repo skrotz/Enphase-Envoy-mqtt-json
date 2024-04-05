@@ -355,7 +355,8 @@ def scrape_stream_meters():
     ENVOY_TOKEN=token_gen(ENVOY_TOKEN)
     while True:
         try:
-            url = 'https://%s/ivp/meters/readings' % ENVOY_HOST
+#           url = 'https://%s/ivp/meters/readings' % ENVOY_HOST
+            url = 'https://%s/ivp/livedata/status' % ENVOY_HOST
             if DEBUG: print(dt_string, 'Url:', url)
             headers = {"Authorization": "Bearer " + ENVOY_TOKEN}
             if DEBUG: print(dt_string, 'headers:', headers)
