@@ -327,7 +327,7 @@ def scrape_stream_livedata():
             elif stream.status_code != 200:
                 print(dt_string,'Failed connect to Envoy got ', stream)
                 time.sleep(1.0)
-            elif is_json_valid(stream.content): 
+            elif 1: #is_json_valid(stream.content): 
                 if stream.json()['connection']['sc_stream'] == 'disabled':
                     url_activate='https://%s/ivp/livedata/stream' % ENVOY_HOST
                     print(dt_string, 'Stream is not active, trying to enable')
