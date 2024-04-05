@@ -1,4 +1,4 @@
-v1.0.15 4 Mar 2024 - Updates for OpenEVSE 
+v1.0.16 4 Mar 2024 - Updates for OpenEVSE 
 
 v1.0.14 28th July - add debug code. ONLY ENABLE FOR TESTING !!!!!!
 
