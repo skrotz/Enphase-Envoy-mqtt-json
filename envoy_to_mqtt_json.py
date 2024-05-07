@@ -63,6 +63,7 @@ MQTT_TOPIC_FREEDS = "Enphase/GridWatts"
 MQTT_TOPIC_PRODS = "Enphase/Production"
 MQTT_TOPIC_BATTS = "Enphase/Storage"
 MQTT_TOPIC_ACTUALS = "Enphase/Actual"
+MQTT_TOPIC_TRUEGRID = "Enphase/TrueGrid"
 MQTT_TOPIC_LOADS = "Enphase/Load"
 MQTT_TOPIC_SOC = "Enphase/Soc"
 ####  End Settings - no changes after this line
@@ -361,6 +362,8 @@ def scrape_stream_livedata():
                         client.publish(topic= MQTT_TOPIC_SOC , payload= json_string_freeds, qos=0 )
                         json_string_freeds = json.dumps(round(stream.json()["meters"]["grid"]["agg_p_mw"]*0.001) + round(stream.json()["meters"]["storage"]["agg_p_mw"]*0.001))
                         client.publish(topic= MQTT_TOPIC_ACTUALS , payload= json_string_freeds, qos=0 )
+                        json_string_freeds = json.dumps(round(stream.json()["meters"]["grid"]["agg_p_mw"]*0.001) + min(0,round(stream.json()["meters"]["storage"]["agg_p_mw"]*0.001)))
+                        client.publish(topic= MQTT_TOPIC_TRUEGRID , payload= json_string_freeds, qos=0 )
                     else:
                         client.publish(topic= MQTT_TOPIC , payload= json_string, qos=0 )
                     time.sleep(4.6)
