@@ -363,7 +363,7 @@ def scrape_stream_livedata():
                         client.publish(topic= MQTT_TOPIC_SOC , payload= json_string_freeds, qos=0 )
                         json_string_freeds = json.dumps(round(stream.json()["meters"]["grid"]["agg_p_mw"]*0.001) + round(stream.json()["meters"]["storage"]["agg_p_mw"]*0.001))
                         client.publish(topic= MQTT_TOPIC_ACTUALS , payload= json_string_freeds, qos=0 )
-                        if round(stream.json()["meters"]["pv"]["agg_p_mw"]*0.001) < 2300
+                        if round(stream.json()["meters"]["pv"]["agg_p_mw"]*0.001) < 2300:
                             powerModify = 0
                         json_string_freeds = json.dumps(round(stream.json()["meters"]["grid"]["agg_p_mw"]*0.001) - powerModify + max(0,round(stream.json()["meters"]["storage"]["agg_p_mw"]*0.001)))
                         client.publish(topic= MQTT_TOPIC_TRUEGRID , payload= json_string_freeds, qos=0 )
