@@ -349,11 +349,12 @@ def scrape_stream_livedata():
                 else:
                     json_string = json.dumps(stream.json())
                     #print(dt_string, 'Json Response:', json_string)
-                    powerModify = 350
+                    powerModify = 0
                     if USE_FREEDS: 
                         json_string_freeds = json.dumps(round(stream.json()["meters"]["grid"]["agg_p_mw"]*0.001))
                         client.publish(topic= MQTT_TOPIC_FREEDS , payload= json_string_freeds, qos=0 )
-                        json_string_freeds = json.dumps(round(stream.json()["meters"]["pv"]["agg_p_mw"]*0.001))
+                        pv = round(stream.json()["meters"]["pv"]["agg_p_mw"]*0.001)
+                        json_string_freeds = json.dumps(pv)
                         client.publish(topic= MQTT_TOPIC_PRODS , payload= json_string_freeds, qos=0 )
                         json_string_freeds = json.dumps(round(stream.json()["meters"]["storage"]["agg_p_mw"]*0.001))
                         client.publish(topic= MQTT_TOPIC_BATTS , payload= json_string_freeds, qos=0 )
@@ -363,8 +364,8 @@ def scrape_stream_livedata():
                         client.publish(topic= MQTT_TOPIC_SOC , payload= json_string_freeds, qos=0 )
                         json_string_freeds = json.dumps(round(stream.json()["meters"]["grid"]["agg_p_mw"]*0.001) + round(stream.json()["meters"]["storage"]["agg_p_mw"]*0.001))
                         client.publish(topic= MQTT_TOPIC_ACTUALS , payload= json_string_freeds, qos=0 )
-                        if round(stream.json()["meters"]["pv"]["agg_p_mw"]*0.001) < 2300:
-                            powerModify = 0
+                        if pv > 1800:
+                            powerModify = max(350, round(350.0 * (float(pv) - 1800.0)/700.0))
                         json_string_freeds = json.dumps(round(stream.json()["meters"]["grid"]["agg_p_mw"]*0.001) - powerModify + max(0,round(stream.json()["meters"]["storage"]["agg_p_mw"]*0.001)))
                         client.publish(topic= MQTT_TOPIC_TRUEGRID , payload= json_string_freeds, qos=0 )
                     else:
