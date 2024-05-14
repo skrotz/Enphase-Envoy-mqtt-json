@@ -18,7 +18,7 @@ options:
   ENVOY_HOST: envoy.local
   ENVOY_USER: enter.enphase.userid@email.com
   ENVOY_USER_PASS: enter.enphase.password
-  USE_FREEDS: False
+  USE_FREEDS: True
   DEBUG: False
 
 schema:
