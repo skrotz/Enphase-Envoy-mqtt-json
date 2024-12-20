@@ -1,4 +1,4 @@
-v1.0.18 19 Dec 2024 - Update to check solar output to prevent triggering during power export
+v1.0.19 19 Dec 2024 - Update to check solar output to prevent triggering during power export
 
 v1.0.18 19 May 2024 - Tweaks for OpenEVSE
 
